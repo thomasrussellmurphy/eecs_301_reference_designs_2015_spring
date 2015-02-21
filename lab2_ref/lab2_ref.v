@@ -61,7 +61,7 @@ wire [ 9: 0 ] measured_speed;
 assign GPIO0_D[ 31: 3 ] = 26'hz;
 
 // Unused active-low 7-segment elements to high
-assign {HEX0_D, HEX0_DP, HEX1_D, HEX1_DP, HEX2_D, HEX2_DP, HEX3_D, HEX3_DP} = 32'hFF_FF_FF_FF;
+assign { HEX0_D, HEX0_DP, HEX1_D, HEX1_DP, HEX2_D, HEX2_DP, HEX3_D, HEX3_DP } = 32'hFF_FF_FF_FF;
 
 // Hold clocks low
 assign GPIO0_CLKOUT = 1'b0;

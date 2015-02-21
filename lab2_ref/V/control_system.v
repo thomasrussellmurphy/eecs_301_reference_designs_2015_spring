@@ -16,7 +16,7 @@ reg signed [ 9: 0 ] speed;
 
 // Result function
 // Preserves sign bit, drops two bits created by error subtraction and conversion of gain to two's complement
-assign result = {signed_result[19], signed_result[16:8]} + 10'b10_0000_0000;
+assign result = { signed_result[ 19 ], signed_result[ 16: 8 ] } + 10'b10_0000_0000;
 
 assign measured_speed = speed;
 
