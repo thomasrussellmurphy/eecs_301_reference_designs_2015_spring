@@ -156,18 +156,19 @@ variable_saturation saturation_array (
                         .ast_source_error( saturated_error )
                     );
 
-//dac_spi dac
-//        (
-//            .sclk( sclk ),
-//            .en( enswitch ),
-//            .ast_sink_data( saturated_data ),
-//            .ast_sink_valid( saturated_valid ),
-//            .ast_sink_error( saturated_error ),
-//            .cs_n( dac_cs_n ),
-//            .mosi( dac_mosi ),
-//            .clr_n( dac_clr_n ),
-//            .ldac_n( dac_ldac_n )
-//        );
+dac_spi dac_bad
+        (
+            .sclk( sclk ),
+            .en( enswitch ),
+            .ast_sink_data( saturated_data ),
+            .ast_sink_valid( saturated_valid ),
+            .ast_sink_error( saturated_error ),
+            .cs_n( dac_cs_n_bad ),
+            .mosi( dac_mosi_bad ),
+            .clr_n( ),
+            .ldac_n( )
+        );
+wire dac_cs_n_bad, dac_mosi_bad /* synthesis keep */;
 
 dac_serial dac(
                .sclk( sclk ),
