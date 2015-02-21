@@ -150,7 +150,7 @@ amplitude_adjust ampl
 dac_spi dac
         (
             .sclk( CLOCK_50 ),
-            .en(enswitch),
+            .en( enswitch ),
             .ast_sink_data( dac_data ),
             .ast_sink_valid( dac_data_valid ),
             .ast_sink_error( 2'b0 ),

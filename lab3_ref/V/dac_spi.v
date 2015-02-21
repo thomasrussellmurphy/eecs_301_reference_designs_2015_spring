@@ -20,7 +20,7 @@ reg [ 2: 0 ] state, next_state;
 
 reg [ 4: 0 ] shift_out_count;
 
-reg [11:0] last_valid_data;
+reg [ 11: 0 ] last_valid_data;
 
 wire [ 31: 0 ] current_command;
 wire [ 11: 0 ] unsigned_data;
@@ -54,13 +54,14 @@ defparam
     shiftreg32.lpm_direction = "LEFT",
     shiftreg32.lpm_type = "LPM_SHIFTREG",
     shiftreg32.lpm_width = 32;
-    
+
 always @( posedge sclk ) begin
     state <= next_state;
-    
-    if(ast_sink_valid) begin
+
+    if ( ast_sink_valid ) begin
         last_valid_data <= ast_sink_data;
-    end else begin
+    end
+    else begin
         last_valid_data <= last_valid_data;
     end
 
