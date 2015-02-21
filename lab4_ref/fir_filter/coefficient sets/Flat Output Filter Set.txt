@@ -1,3 +1,6 @@
+# FIR filter designed with
+# A little help from CWRU EECS 313 (and Python string multiplication)
+#
 # sampling frequency: Any
 # filter tap count: 279
 
