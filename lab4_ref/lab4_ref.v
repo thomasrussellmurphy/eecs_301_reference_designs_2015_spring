@@ -170,13 +170,13 @@ variable_saturation saturation_array (
 //        );
 
 dac_serial dac(
-.sclk(sclk),
-                   .ast_sink_data(saturated_data),
-                   .ast_sink_valid(saturated_valid),.
-                   ast_sink_error(saturated_error),
-                   .sdo(dac_mosi),
-                   .cs(dac_cs_n)
-                   );
+               .sclk( sclk ),
+               .ast_sink_data( saturated_data ),
+               .ast_sink_valid( saturated_valid ), .
+               ast_sink_error( saturated_error ),
+               .sdo( dac_mosi ),
+               .cs( dac_cs_n )
+           );
 assign dac_clr_n = 1'b1;
 assign dac_ldac_n = 1'b0;
 
