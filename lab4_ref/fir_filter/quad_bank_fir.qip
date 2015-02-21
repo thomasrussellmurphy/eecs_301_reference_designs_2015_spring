@@ -1,0 +1,25 @@
+set_global_assignment -entity "quad_bank_fir" -library "quad_bank_fir" -name IP_TOOL_NAME "altera_fir_compiler_ii"
+set_global_assignment -entity "quad_bank_fir" -library "quad_bank_fir" -name IP_TOOL_VERSION "13.1"
+set_global_assignment -entity "quad_bank_fir" -library "quad_bank_fir" -name IP_TOOL_ENV "mwpim"
+set_global_assignment -library "quad_bank_fir" -name MISC_FILE [file join $::quartus(qip_path) "quad_bank_fir.cmp"]
+set_global_assignment -name SYNTHESIS_ONLY_QIP ON
+
+set_global_assignment -library "quad_bank_fir" -name VERILOG_FILE [file join $::quartus(qip_path) "quad_bank_fir.v"]
+set_global_assignment -library "quad_bank_fir" -name VERILOG_FILE [file join $::quartus(qip_path) "quad_bank_fir/altera_avalon_sc_fifo.v"]
+set_global_assignment -library "quad_bank_fir" -name VHDL_FILE [file join $::quartus(qip_path) "quad_bank_fir/auk_dspip_math_pkg_hpfir.vhd"]
+set_global_assignment -library "quad_bank_fir" -name VHDL_FILE [file join $::quartus(qip_path) "quad_bank_fir/auk_dspip_lib_pkg_hpfir.vhd"]
+set_global_assignment -library "quad_bank_fir" -name VHDL_FILE [file join $::quartus(qip_path) "quad_bank_fir/auk_dspip_avalon_streaming_controller_hpfir.vhd"]
+set_global_assignment -library "quad_bank_fir" -name VHDL_FILE [file join $::quartus(qip_path) "quad_bank_fir/auk_dspip_avalon_streaming_sink_hpfir.vhd"]
+set_global_assignment -library "quad_bank_fir" -name VHDL_FILE [file join $::quartus(qip_path) "quad_bank_fir/auk_dspip_avalon_streaming_source_hpfir.vhd"]
+set_global_assignment -library "quad_bank_fir" -name VHDL_FILE [file join $::quartus(qip_path) "quad_bank_fir/auk_dspip_roundsat_hpfir.vhd"]
+set_global_assignment -library "quad_bank_fir" -name VHDL_FILE [file join $::quartus(qip_path) "quad_bank_fir/dspba_library_package.vhd"]
+set_global_assignment -library "quad_bank_fir" -name VHDL_FILE [file join $::quartus(qip_path) "quad_bank_fir/dspba_library.vhd"]
+set_global_assignment -library "quad_bank_fir" -name SOURCE_FILE [file join $::quartus(qip_path) "quad_bank_fir/quad_bank_fir_0002_rtl_u0_m0_wo0_wi0_ra1_count1_lut_lutmem.hex"]
+set_global_assignment -library "quad_bank_fir" -name VHDL_FILE [file join $::quartus(qip_path) "quad_bank_fir/quad_bank_fir_0002_rtl.vhd"]
+set_global_assignment -library "quad_bank_fir" -name VHDL_FILE [file join $::quartus(qip_path) "quad_bank_fir/quad_bank_fir_0002_ast.vhd"]
+set_global_assignment -library "quad_bank_fir" -name VHDL_FILE [file join $::quartus(qip_path) "quad_bank_fir/quad_bank_fir_0002.vhd"]
+set_global_assignment -library "quad_bank_fir" -name SDC_FILE [file join $::quartus(qip_path) "quad_bank_fir/quad_bank_fir_0002.sdc"]
+
+set_global_assignment -entity "quad_bank_fir_0002" -library "quad_bank_fir" -name IP_TOOL_NAME "altera_fir_compiler_ii"
+set_global_assignment -entity "quad_bank_fir_0002" -library "quad_bank_fir" -name IP_TOOL_VERSION "13.1"
+set_global_assignment -entity "quad_bank_fir_0002" -library "quad_bank_fir" -name IP_TOOL_ENV "mwpim"

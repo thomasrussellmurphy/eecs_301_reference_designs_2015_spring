@@ -1,0 +1,26 @@
+set_global_assignment -entity "quad_bank_fir" -library "lib_quad_bank_fir" -name IP_TOOL_NAME "altera_fir_compiler_ii"
+set_global_assignment -entity "quad_bank_fir" -library "lib_quad_bank_fir" -name IP_TOOL_VERSION "13.1"
+set_global_assignment -entity "quad_bank_fir" -library "lib_quad_bank_fir" -name IP_TOOL_ENV "mwpim"
+set_global_assignment -library "lib_quad_bank_fir" -name SPD_FILE [file join $::quartus(sip_path) "quad_bank_fir.spd"]
+
+set_global_assignment -library "lib_quad_bank_fir" -name MISC_FILE [file join $::quartus(sip_path) "quad_bank_fir_sim/altera_avalon_sc_fifo.v"]
+set_global_assignment -library "lib_quad_bank_fir" -name MISC_FILE [file join $::quartus(sip_path) "quad_bank_fir_sim/auk_dspip_math_pkg_hpfir.vhd"]
+set_global_assignment -library "lib_quad_bank_fir" -name MISC_FILE [file join $::quartus(sip_path) "quad_bank_fir_sim/auk_dspip_lib_pkg_hpfir.vhd"]
+set_global_assignment -library "lib_quad_bank_fir" -name MISC_FILE [file join $::quartus(sip_path) "quad_bank_fir_sim/auk_dspip_avalon_streaming_controller_hpfir.vhd"]
+set_global_assignment -library "lib_quad_bank_fir" -name MISC_FILE [file join $::quartus(sip_path) "quad_bank_fir_sim/auk_dspip_avalon_streaming_sink_hpfir.vhd"]
+set_global_assignment -library "lib_quad_bank_fir" -name MISC_FILE [file join $::quartus(sip_path) "quad_bank_fir_sim/auk_dspip_avalon_streaming_source_hpfir.vhd"]
+set_global_assignment -library "lib_quad_bank_fir" -name MISC_FILE [file join $::quartus(sip_path) "quad_bank_fir_sim/auk_dspip_roundsat_hpfir.vhd"]
+set_global_assignment -library "lib_quad_bank_fir" -name MISC_FILE [file join $::quartus(sip_path) "quad_bank_fir_sim/dspba_library_package.vhd"]
+set_global_assignment -library "lib_quad_bank_fir" -name MISC_FILE [file join $::quartus(sip_path) "quad_bank_fir_sim/dspba_library.vhd"]
+set_global_assignment -library "lib_quad_bank_fir" -name MISC_FILE [file join $::quartus(sip_path) "quad_bank_fir_sim/quad_bank_fir_rtl_u0_m0_wo0_wi0_ra1_count1_lut_lutmem.hex"]
+set_global_assignment -library "lib_quad_bank_fir" -name MISC_FILE [file join $::quartus(sip_path) "quad_bank_fir_sim/quad_bank_fir_rtl.vhd"]
+set_global_assignment -library "lib_quad_bank_fir" -name MISC_FILE [file join $::quartus(sip_path) "quad_bank_fir_sim/quad_bank_fir_ast.vhd"]
+set_global_assignment -library "lib_quad_bank_fir" -name MISC_FILE [file join $::quartus(sip_path) "quad_bank_fir_sim/quad_bank_fir.vhd"]
+set_global_assignment -library "lib_quad_bank_fir" -name MISC_FILE [file join $::quartus(sip_path) "quad_bank_fir_sim/quad_bank_fir_nativelink.tcl"]
+set_global_assignment -library "lib_quad_bank_fir" -name MISC_FILE [file join $::quartus(sip_path) "quad_bank_fir_sim/quad_bank_fir_msim.tcl"]
+set_global_assignment -library "lib_quad_bank_fir" -name MISC_FILE [file join $::quartus(sip_path) "quad_bank_fir_sim/quad_bank_fir_tb.vhd"]
+set_global_assignment -library "lib_quad_bank_fir" -name MISC_FILE [file join $::quartus(sip_path) "quad_bank_fir_sim/quad_bank_fir_mlab.m"]
+set_global_assignment -library "lib_quad_bank_fir" -name MISC_FILE [file join $::quartus(sip_path) "quad_bank_fir_sim/quad_bank_fir_model.m"]
+set_global_assignment -library "lib_quad_bank_fir" -name MISC_FILE [file join $::quartus(sip_path) "quad_bank_fir_sim/quad_bank_fir_coef_int.txt"]
+set_global_assignment -library "lib_quad_bank_fir" -name MISC_FILE [file join $::quartus(sip_path) "quad_bank_fir_sim/quad_bank_fir_input.txt"]
+set_global_assignment -library "lib_quad_bank_fir" -name MISC_FILE [file join $::quartus(sip_path) "quad_bank_fir_sim/quad_bank_fir_param.txt"]
