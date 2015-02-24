@@ -4,7 +4,7 @@ JedecChain;
 	DefaultMfr(6E);
 
 	P ActionCode(Cfg)
-		Device PartName(EP3C16F484) Path("Z:/Documents/CWRU_2015a/EECS 301 TA/lab4_ref/") File("lab4_ref.sof") MfrSpec(OpMask(1));
+		Device PartName(EP3C16F484) Path("Z:/Documents/CWRU_2015a/EECS 301 TA/eecs_301_reference_designs_2015_spring/lab4_ref/") File("lab4_ref.sof") MfrSpec(OpMask(1));
 
 ChainEnd;
 
