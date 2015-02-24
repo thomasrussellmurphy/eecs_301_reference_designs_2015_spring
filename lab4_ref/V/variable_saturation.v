@@ -9,6 +9,7 @@ module variable_saturation
            output reg [ 1: 0 ] ast_source_error,
            output reg ast_source_valid
        );
+
 // Different versions of the processed data
 wire [ 11: 0 ] saturator_data0, saturator_data1, saturator_data2, saturator_data3;
 wire saturator_valid0, saturator_valid1, saturator_valid2, saturator_valid3;
@@ -39,8 +40,11 @@ always @( * ) begin
             ast_source_valid <= saturator_valid0;
         end
     endcase
-    ;
 end
+
+// Instantiate the 4 saturator instances with the appropriate parameters
+// Each saturator is 35-bit to 12-bit
+// Expected order of filters: flat, low pass, band pass, high pass
 
 auk_dspip_roundsat_hpfir saturator0
                          (
@@ -54,9 +58,9 @@ auk_dspip_roundsat_hpfir saturator0
 
 defparam
     saturator0.IN_WIDTH_g = 35,
-    saturator0.REM_LSB_BIT_g = 14,
+    saturator0.REM_LSB_BIT_g = 15,
     saturator0.REM_LSB_TYPE_g = "Truncation",
-    saturator0.REM_MSB_BIT_g = 9,
+    saturator0.REM_MSB_BIT_g = 8,
     saturator0.REM_MSB_TYPE_g = "Saturating";
 
 auk_dspip_roundsat_hpfir saturator1
@@ -71,9 +75,9 @@ auk_dspip_roundsat_hpfir saturator1
 
 defparam
     saturator1.IN_WIDTH_g = 35,
-    saturator1.REM_LSB_BIT_g = 19,
+    saturator1.REM_LSB_BIT_g = 20,
     saturator1.REM_LSB_TYPE_g = "Truncation",
-    saturator1.REM_MSB_BIT_g = 4,
+    saturator1.REM_MSB_BIT_g = 3,
     saturator1.REM_MSB_TYPE_g = "Saturating";
 
 auk_dspip_roundsat_hpfir saturator2
@@ -88,9 +92,9 @@ auk_dspip_roundsat_hpfir saturator2
 
 defparam
     saturator2.IN_WIDTH_g = 35,
-    saturator2.REM_LSB_BIT_g = 16,
+    saturator2.REM_LSB_BIT_g = 19,
     saturator2.REM_LSB_TYPE_g = "Truncation",
-    saturator2.REM_MSB_BIT_g = 7,
+    saturator2.REM_MSB_BIT_g = 4,
     saturator2.REM_MSB_TYPE_g = "Saturating";
 
 
@@ -106,8 +110,8 @@ auk_dspip_roundsat_hpfir saturator3
 
 defparam
     saturator3.IN_WIDTH_g = 35,
-    saturator3.REM_LSB_BIT_g = 13,
+    saturator3.REM_LSB_BIT_g = 16,
     saturator3.REM_LSB_TYPE_g = "Truncation",
-    saturator3.REM_MSB_BIT_g = 10,
+    saturator3.REM_MSB_BIT_g = 7,
     saturator3.REM_MSB_TYPE_g = "Saturating";
 endmodule
