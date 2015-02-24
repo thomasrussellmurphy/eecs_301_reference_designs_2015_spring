@@ -24,7 +24,7 @@ reg [ 31: 0 ] current_command;
 wire [ 11: 0 ] unsigned_data;
 reg enable_shift, load_shift, enable_out;
 
-assign unsigned_data = ast_sink_data + 12'b10_0000_0000;
+assign unsigned_data = ast_sink_data + 12'b1000_0000_0000;
 assign ldac_n = 1'b0;
 assign clr_n = 1'b1;
 assign cs_n = ~enable_out;
