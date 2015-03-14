@@ -57,9 +57,10 @@
 # *.sdc # I want those timing files
 
 # ignore Quartus II generated folders
-*/db/
-*/incremental_db/
-*/simulation/
-*/timing/
-*/testbench/
-*/*_sim/
+db
+incremental_db
+simulation
+timing
+testbench
+*_sim
+greybox_tmp
