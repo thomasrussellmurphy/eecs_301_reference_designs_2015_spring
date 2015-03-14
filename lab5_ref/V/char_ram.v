@@ -12,7 +12,7 @@ module char_ram
 // 272/16 => 17 vertical caracter cells used
 wire [ 10: 0 ] read_addr, write_addr;
 assign read_addr = { read_v_addr, read_h_addr };
-assign write_addr = { read_v_addr, read_h_addr };
+assign write_addr = { write_v_addr, write_h_addr };
 
 // Resultant memory is 6 bits by 5 bits: 2^11
 // Character values are 7 bits

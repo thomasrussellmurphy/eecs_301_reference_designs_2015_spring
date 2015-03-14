@@ -20,7 +20,7 @@ parameter VERT_LOW_WIDTH = 10'd10; // horizontal lines
 
 // Valid horizontal counts are offset by 2 from display observation
 // Valid vertical counts are offset by 1 from display observation
-parameter HORZ_DELAY = 10'd2;
+parameter HORZ_DELAY = 10'd0;
 parameter VERT_DELAY = 10'd1;
 
 parameter HORZ_MIN_VALID_COUNT = HORZ_LOW_WIDTH + HORZ_FRONT_PORCH - HORZ_DELAY;
