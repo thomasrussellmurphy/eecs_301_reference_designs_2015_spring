@@ -12,14 +12,15 @@ module char_array_display
 // ***
 
 // Display color definitions
-parameter FONT_RED = 8'hF4;
+parameter FONT_RED = 8'h23;
 parameter FONT_GREEN = 8'hA1;
-parameter FONT_BLUE = 8'h30;
+parameter FONT_BLUE = 8'hE7;
 
 // *** Internal register and wire declarations
 // ***
 wire font_bit;
-wire [ 5: 0 ] read_cell_x_addr, write_cell_x_addr;
+wire [ 9: 0 ] advanced_pixel_x;
+wire [ 5: 0 ] read_cell_x_addr, cursor_cell_x_addr, write_cell_x_addr;
 wire [ 4: 0 ] read_cell_y_addr, write_cell_y_addr;
 wire [ 2: 0 ] font_word_column_addr;
 wire [ 6: 0 ] font_char_addr;
@@ -35,18 +36,21 @@ wire [ 7: 0 ] font_rev_red_out, font_rev_green_out, font_rev_blue_out;
 
 // *** Structural design (assign and module)
 // ***
+// Set the advanced version of the x pixel position
+assign advanced_pixel_x = pixel_x + 2'd2;
+
 // Manipulate read port of the RAM
-assign read_cell_x_addr = pixel_x[ 8: 3 ]; // 6 bits above 3 LSB are cell x address
+assign read_cell_x_addr = advanced_pixel_x[ 8: 3 ]; // 6 bits above 3 LSB are cell x address
+assign cursor_cell_x_addr = pixel_x[ 8: 3 ]; // Use not-advanced version for cursor
 assign read_cell_y_addr = pixel_y[ 8: 4 ]; // 5 bits above 4 LSB are cell y address
 
-
 // Everything to read from the ROM and get a 1-bit pixel value out
-assign font_word_column_addr = pixel_x[ 2: 0 ] - 2'b10; // LSB of x position are char column
+assign font_word_column_addr = 3'b111 - ( advanced_pixel_x[ 2: 0 ] - 2'b10 ); // LSB of x position are char column
 assign font_char_row_addr = pixel_y[ 3: 0 ]; // LSB of y position are char row
 assign font_rom_addr = { font_char_addr, font_char_row_addr };
 assign font_bit = font_rom_word[ font_word_column_addr ];
 
-assign cursor_on = ( read_cell_x_addr == write_cell_x_addr ) && ( read_cell_y_addr == write_cell_y_addr );
+assign cursor_on = ( cursor_cell_x_addr == write_cell_x_addr ) && ( read_cell_y_addr == write_cell_y_addr );
 
 // green over black and reversed video for cursor
 assign font_red_out = ( font_bit ) ? FONT_RED : 8'h00;
