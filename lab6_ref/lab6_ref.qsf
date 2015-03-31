@@ -43,7 +43,6 @@ set_global_assignment -name PROJECT_CREATION_TIME_DATE "10:00:00  JANUARY 01, 20
 set_global_assignment -name FLOW_ENABLE_RTL_VIEWER OFF
 set_global_assignment -name SMART_RECOMPILE ON
 set_global_assignment -name LAST_QUARTUS_VERSION 13.1
-set_global_assignment -name VERILOG_FILE lab6_ref.v
 
 # Pin & Location Assignments
 # ==========================
@@ -620,3 +619,11 @@ set_global_assignment -name ENABLE_ADVANCED_IO_TIMING ON
 
 # end ENTITY(lab6_ref)
 # -------------------
+
+set_global_assignment -name VERILOG_FILE V/video_position_sync.v
+set_global_assignment -name VERILOG_FILE V/spi_16i_16o.v
+set_global_assignment -name VERILOG_FILE V/sample_timer.v
+set_global_assignment -name VERILOG_FILE V/pwm_output.v
+set_global_assignment -name VERILOG_FILE V/dac_spi.v
+set_global_assignment -name VERILOG_FILE V/adc_serial.v
+set_global_assignment -name VERILOG_FILE lab6_ref.v
