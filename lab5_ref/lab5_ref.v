@@ -69,14 +69,16 @@ assign write_char_button = ~BUTTON[ 2 ];
 // Structural coding
 // =======================================================
 
-video_pll pll(
+video_pll pll
+          (
               .inclk0( CLOCK_50 ),
               .c0( disp_clk ),
               .locked( pll_lock )
           );
 
 // Control the video side of the world
-video_position_sync video_sync (
+video_position_sync video_sync
+                    (
                         .disp_clk( disp_clk ),
                         .en( pll_lock ),
                         .valid_draw( valid_draw ),
@@ -87,6 +89,7 @@ video_position_sync video_sync (
                         .disp_vsync( disp_vsync )
                     );
 //
+
 display_reset_controller reset_control
                          (
                              .clk( disp_clk ),
@@ -96,7 +99,8 @@ display_reset_controller reset_control
                          );
 //
 
-char_array_display display(
+char_array_display display
+                   (
                        .clk( disp_clk ),
                        .reset( display_reset ),
                        .en( en_switch ),
@@ -113,5 +117,21 @@ char_array_display display(
                        .green_out( disp_green ),
                        .blue_out( disp_blue )
                    );
+//
+
+SEG7_LUT_4 seg7_controller
+           (
+               .oSEG0( HEX0_D ),
+               .oSEG0_DP(),
+               .oSEG1( HEX1_D ),
+               .oSEG1_DP(),
+               .oSEG2( HEX2_D ),
+               .oSEG2_DP(),
+               .oSEG3( HEX3_D ),
+               .oSEG3_DP(),
+               .iDIG( next_char_value )
+           );
+
+//
 
 endmodule
