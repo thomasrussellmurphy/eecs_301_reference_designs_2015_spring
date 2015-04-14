@@ -626,5 +626,12 @@ set_global_assignment -name VERILOG_FILE V/pwm_output.v
 set_global_assignment -name VERILOG_FILE V/dac_spi.v
 set_global_assignment -name VERILOG_FILE V/adc_serial.v
 set_global_assignment -name VERILOG_FILE lab6_ref.v
-set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
 set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
+set_global_assignment -name QIP_FILE fir_filter/fir_hpf.qip
+set_global_assignment -name SIP_FILE fir_filter/fir_hpf.sip
+set_global_assignment -name QIP_FILE fir_filter/fir_lpf.qip
+set_global_assignment -name SIP_FILE fir_filter/fir_lpf.sip
+set_global_assignment -name QIP_FILE pll/system_pll.qip
+set_global_assignment -name VERILOG_FILE V/peak_detector.v
+set_global_assignment -name VERILOG_FILE V/avalon_motor.v
+set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top

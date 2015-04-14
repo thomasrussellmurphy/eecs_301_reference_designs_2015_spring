@@ -30,7 +30,9 @@ module lab6_ref
 // =======================================================
 // REG/WIRE declarations
 // =======================================================
+// PLL connections
 wire pll_lock;
+wire pll_clk_50, pll_clk_20, pll_clk_9;
 
 // Connect timer to ADC
 wire sample;
@@ -43,8 +45,18 @@ wire [ 11: 0 ] adc_data;
 wire [ 1: 0 ] adc_error;
 wire adc_valid;
 
+// Filter signals; Connect from filters to data sinks
+wire [ 11: 0 ] hpf_data, lpf_data;
+wire [ 1: 0 ] hpf_error, lpf_error;
+wire hpf_valid, lpf_valid;
+
 // DAC signals
 wire dac_mosi, dac_cs_n, dac_clr_n, dac_ldac_n;
+wire dac_en;
+
+// Motor PWM signals
+wire pwm_clk;
+wire motor_phase, motor_antiphase, motor_en;
 
 // Global clock for SPI devices
 wire sclk;
@@ -58,9 +70,19 @@ wire disp_clk, disp_en, disp_vsync, disp_hsync;
 //=======================================================
 // Input/Output assignments
 //=======================================================
-// All unused inout port turn to tri-state
-assign { GPIO0_D[ 31: 15 ], GPIO0_D[ 5: 0 ] } = 23'hzzzzzzzz;
-assign GPIO1_D [ 31: 28 ] = 4'hz;
+// Forgoing additional tristating for RTL viewer simplicity.
+// Plus, it hasn't blown anything up on the boards, yet.
+
+// Assign clock nets
+assign disp_clk = pll_clk_9;
+assign sclk = pll_clk_20;
+assign pwm_clk = pll_clk_50;
+
+// ADC Serial Connections
+assign GPIO0_D[ 14 ] = adc_cs_n; // active low
+assign adc_miso = GPIO0_D[ 13 ];
+assign GPIO0_D[ 12 ] = adc_mosi;
+assign GPIO0_D[ 11 ] = sclk;
 
 // DAC Serial Connections
 assign GPIO0_D[ 10 ] = dac_clr_n;
@@ -69,28 +91,40 @@ assign GPIO0_D[ 8 ] = dac_cs_n; // active low
 assign GPIO0_D[ 7 ] = dac_mosi;
 assign GPIO0_D[ 6 ] = sclk;
 
-// ADC Serial Connections
-assign GPIO0_D[ 14 ] = adc_cs_n; // active low
-assign adc_miso = GPIO0_D[ 13 ];
-assign GPIO0_D[ 12 ] = adc_mosi;
-assign GPIO0_D[ 11 ] = sclk;
+// Motor Connections
+assign GPIO0_D[ 1: 0 ] = { motor_phase, motor_antiphase };
+assign GPIO0_D[ 2 ] = motor_en;
 
+assign motor_en = SW[ 1 ];
+
+// Display Connections
 assign GPIO1_D[ 27: 0 ] = { disp_vsync, disp_hsync, disp_en, disp_clk, disp_blue, disp_green, disp_red };
 assign disp_en = pll_lock; // Enable the display just after PLL has locked
+
+assign dac_en = SW[ 0 ];
 
 
 // =======================================================
 // Structural coding
 // =======================================================
+system_pll pll
+           (
+               .inclk0( CLOCK_50 ),
+               .locked( pll_lock ),
+               .c0( pll_clk_50 ),
+               .c1( pll_clk_20 ),
+               .c2( pll_clk_9 )
+           );
 sample_timer timer
              (
                  .clk( sclk ),
-                 .reset_n( pll_locked ),
+                 .reset_n( pll_lock ),
                  .sample_trigger( sample )
              );
 //
 
-adc_serial adc (
+adc_serial adc
+           (
                .sclk( sclk ),
                .ast_source_data( adc_data ),
                .ast_source_valid( adc_valid ),
@@ -101,13 +135,38 @@ adc_serial adc (
                .cs( adc_cs_n ) );
 //
 
+fir_hpf high_pass_filter
+        (
+            .clk( sclk ),
+            .reset_n( pll_lock ),
+            .ast_sink_data( adc_data ),
+            .ast_sink_valid( adc_valid ),
+            .ast_sink_error( adc_error ),
+            .ast_source_data( hpf_data ),
+            .ast_source_valid( hpf_valid ),
+            .ast_source_error( hpf_error )
+        );
+//
+
+fir_lpf low_pass_filter
+        (
+            .clk( sclk ),
+            .reset_n( pll_lock ),
+            .ast_sink_data( adc_data ),
+            .ast_sink_valid( adc_valid ),
+            .ast_sink_error( adc_error ),
+            .ast_source_data( lpf_data ),
+            .ast_source_valid( lpf_valid ),
+            .ast_source_error( lpf_error )
+        );
+
 dac_spi dac
         (
             .sclk( sclk ),
-            .en( enswitch ),
-            .ast_sink_data( saturated_data ),
-            .ast_sink_valid( saturated_valid ),
-            .ast_sink_error( saturated_error ),
+            .en( dac_en ),
+            .ast_sink_data( hpf_data ),
+            .ast_sink_valid( hpf_valid ),
+            .ast_sink_error( hpf_error ),
             .cs_n( dac_cs_n ),
             .mosi( dac_mosi ),
             .clr_n( dac_clr_n ),
@@ -115,8 +174,22 @@ dac_spi dac
         );
 //
 
+avalon_motor motor
+             (
+                 .pwm_clk( pwm_clk ),
+                 .data_clk( sclk ),
+                 .ast_sink_data( lpf_data ),
+                 .ast_sink_error( lpf_error ),
+                 .ast_sink_valid( lpf_valid ),
+                 .outh( motor_phase ),
+                 .outl( motor_antiphase ),
+                 .update()
+             );
+//
+
 // Control the video side of the world
-video_position_sync video_sync (
+video_position_sync video_sync
+                    (
                         .disp_clk( disp_clk ),
                         .en( pll_lock ),
                         .valid_draw( valid_draw ),
