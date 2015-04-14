@@ -37,6 +37,9 @@ wire pll_clk_50, pll_clk_20, pll_clk_9;
 // Connect timer to ADC
 wire sample;
 
+// Global clock for SPI devices and data processing
+wire sclk;
+
 // ADC signals
 wire adc_mosi, adc_miso, adc_cs_n;
 
@@ -58,9 +61,11 @@ wire dac_en;
 wire pwm_clk;
 wire motor_phase, motor_antiphase, motor_en;
 
-// Global clock for SPI devices
-wire sclk;
+// Peak detector signals
+wire [ 11: 0 ] lpf_peak_data, hpf_peak_data;
+wire lpf_peak_valid, hpf_peak_valid;
 
+// Display signals
 wire [ 9: 0 ] h_pos, v_pos;
 wire valid_draw, v_blank;
 
@@ -187,6 +192,34 @@ avalon_motor motor
              );
 //
 
+// Do the peak processing
+peak_detector hf_detector
+              (
+                  .data_clk( sclk ),
+                  .display_clk( disp_clk ),
+                  .ast_sink_data( hpf_data ),
+                  .ast_sink_valid( hpf_valid ),
+                  .ast_sink_error( hpf_error ),
+                  .v_blank( v_blank ),
+                  .source_data( hpf_peak_data ),
+                  .source_valid( hpf_peak_valid )
+              );
+//
+
+peak_detector lf_detector
+              (
+                  .data_clk( sclk ),
+                  .display_clk( disp_clk ),
+                  .ast_sink_data( lpf_data ),
+                  .ast_sink_valid( lpf_valid ),
+                  .ast_sink_error( lpf_error ),
+                  .v_blank( v_blank ),
+                  .source_data( lpf_peak_data ),
+                  .source_valid( lpf_peak_valid )
+              );
+//
+
+
 // Control the video side of the world
 video_position_sync video_sync
                     (
@@ -199,6 +232,23 @@ video_position_sync video_sync
                         .disp_hsync( disp_hsync ),
                         .disp_vsync( disp_vsync )
                     );
+//
+
+dual_scrolling_display display
+                       (
+                           .data_clk( sclk ),
+                           .display_clk( disp_clk ),
+                           .h_pos( h_pos ),
+                           .v_pos( v_pos ),
+                           .valid_draw( valid_draw ),
+                           .sink_data_a( lpf_peak_data ),
+                           .sink_data_b( hpf_peak_data ),
+                           .sink_valid_a( lpf_peak_valid ),
+                           .sink_valid_b( hpf_peak_valid ),
+                           .disp_red( disp_red ),
+                           .disp_green( disp_green ),
+                           .disp_blue( disp_blue )
+                       );
 //
 
 endmodule
