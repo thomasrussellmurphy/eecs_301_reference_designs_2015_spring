@@ -15,6 +15,7 @@
  <file path="fir_hpf_sim/auk_dspip_roundsat_hpfir.vhd" type="VHDL" />
  <file path="fir_hpf_sim/dspba_library_package.vhd" type="VHDL" />
  <file path="fir_hpf_sim/dspba_library.vhd" type="VHDL" />
+ <file path="fir_hpf_sim/fir_hpf_rtl_u0_m0_wo0_cm0_lutmem.hex" type="HEX" />
  <file path="fir_hpf_sim/fir_hpf_rtl.vhd" type="VHDL" />
  <file path="fir_hpf_sim/fir_hpf_ast.vhd" type="VHDL" />
  <file path="fir_hpf_sim/fir_hpf.vhd" type="VHDL" />

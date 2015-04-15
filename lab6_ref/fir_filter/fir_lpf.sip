@@ -12,6 +12,7 @@ set_global_assignment -library "lib_fir_lpf" -name MISC_FILE [file join $::quart
 set_global_assignment -library "lib_fir_lpf" -name MISC_FILE [file join $::quartus(sip_path) "fir_lpf_sim/auk_dspip_roundsat_hpfir.vhd"]
 set_global_assignment -library "lib_fir_lpf" -name MISC_FILE [file join $::quartus(sip_path) "fir_lpf_sim/dspba_library_package.vhd"]
 set_global_assignment -library "lib_fir_lpf" -name MISC_FILE [file join $::quartus(sip_path) "fir_lpf_sim/dspba_library.vhd"]
+set_global_assignment -library "lib_fir_lpf" -name MISC_FILE [file join $::quartus(sip_path) "fir_lpf_sim/fir_lpf_rtl_u0_m0_wo0_cm0_lutmem.hex"]
 set_global_assignment -library "lib_fir_lpf" -name MISC_FILE [file join $::quartus(sip_path) "fir_lpf_sim/fir_lpf_rtl.vhd"]
 set_global_assignment -library "lib_fir_lpf" -name MISC_FILE [file join $::quartus(sip_path) "fir_lpf_sim/fir_lpf_ast.vhd"]
 set_global_assignment -library "lib_fir_lpf" -name MISC_FILE [file join $::quartus(sip_path) "fir_lpf_sim/fir_lpf.vhd"]

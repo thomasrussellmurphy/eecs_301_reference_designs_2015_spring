@@ -7,6 +7,7 @@ fir_lpf_sim/auk_dspip_avalon_streaming_source_hpfir.vhd
 fir_lpf_sim/auk_dspip_roundsat_hpfir.vhd
 fir_lpf_sim/dspba_library_package.vhd
 fir_lpf_sim/dspba_library.vhd
+fir_lpf_sim/fir_lpf_rtl_u0_m0_wo0_cm0_lutmem.hex
 fir_lpf_sim/fir_lpf_rtl.vhd
 fir_lpf_sim/fir_lpf_ast.vhd
 fir_lpf_sim/fir_lpf.vhd

@@ -22,11 +22,11 @@ use work.auk_dspip_math_pkg_hpfir.all;
 entity fir_lpf_0002_ast is
   generic (
   INWIDTH             : integer := 12;
-  FULL_WIDTH          : integer := 30;
+  FULL_WIDTH          : integer := 33;
   BANKINWIDTH         : integer := 0;
   REM_LSB_BIT_g       : integer := 15;
   REM_LSB_TYPE_g      : string := "Truncation";
-  REM_MSB_BIT_g       : integer := 3;
+  REM_MSB_BIT_g       : integer := 6;
   REM_MSB_TYPE_g      : string := "Truncation";
   PHYSCHANIN          : integer := 1;
   PHYSCHANOUT         : integer := 1;
@@ -102,7 +102,7 @@ component fir_lpf_0002_rtl is
     xIn_0              : in std_logic_vector(12 - 1 downto 0);
     xOut_v             : out std_logic_vector(0 downto 0);
     xOut_c             : out std_logic_vector(7 downto 0);
-    xOut_0             : out std_logic_vector(30 - 1 downto 0);
+    xOut_0             : out std_logic_vector(33 - 1 downto 0);
     clk                : in std_logic;
     areset             : in std_logic
 );
@@ -177,7 +177,7 @@ hpfircore: fir_lpf_0002_rtl
      xIn_0     => data_in((0 + 12) * 0 + 12 - 1 downto (0 + 12) * 0),
      xOut_v    => core_out_valid,
      xOut_c    => core_out_channel,
-     xOut_0   => core_out(30 * 0 + 30 - 1 downto 30 * 0),
+     xOut_0   => core_out(33 * 0 + 33 - 1 downto 33 * 0),
      clk       => clk,
      areset    => reset_fir
    );
