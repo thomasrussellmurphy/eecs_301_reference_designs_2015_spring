@@ -16,7 +16,7 @@
 -- ---------------------------------------------------------------------------
 
 -- VHDL created from fir_hpf_0002_rtl
--- VHDL created on Tue Apr 14 23:27:55 2015
+-- VHDL created on Wed Apr 15 13:27:30 2015
 
 
 library IEEE;
