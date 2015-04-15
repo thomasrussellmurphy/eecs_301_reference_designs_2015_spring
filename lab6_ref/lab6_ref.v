@@ -83,6 +83,11 @@ assign disp_clk = pll_clk_9;
 assign sclk = pll_clk_20;
 assign pwm_clk = pll_clk_50;
 
+// Assign status lights
+assign LEDG[ 0 ] = dac_en;
+assign LEDG[ 1 ] = motor_en;
+assign LEDG[ 2 ] = 1'b1; // lit for spatial reference
+
 // ADC Serial Connections
 assign GPIO0_D[ 14 ] = adc_cs_n; // active low
 assign adc_miso = GPIO0_D[ 13 ];
