@@ -54,6 +54,9 @@ wire [ 1: 0 ] hpf_error, lpf_error;
 wire hpf_valid, lpf_valid;
 
 // DAC signals
+wire [ 11: 0 ] dac_sink_data;
+wire[ 1: 0 ] dac_sink_error;
+wire dac_sink_valid;
 wire dac_mosi, dac_cs_n, dac_clr_n, dac_ldac_n;
 wire dac_en;
 
@@ -72,6 +75,8 @@ wire valid_draw, v_blank;
 wire [ 7: 0 ] disp_red, disp_green, disp_blue;
 wire disp_clk, disp_en, disp_vsync, disp_hsync;
 
+wire disp_en_sw;
+
 //=======================================================
 // Input/Output assignments
 //=======================================================
@@ -86,7 +91,8 @@ assign pwm_clk = pll_clk_50;
 // Assign status lights
 assign LEDG[ 0 ] = dac_en;
 assign LEDG[ 1 ] = motor_en;
-assign LEDG[ 2 ] = 1'b1; // lit for spatial reference
+assign LEDG[ 2 ] = disp_en_sw;
+assign LEDG[ 3 ] = 1'b1; // lit for spatial reference
 
 // ADC Serial Connections
 assign GPIO0_D[ 14 ] = adc_cs_n; // active low
@@ -112,7 +118,7 @@ assign GPIO1_D[ 27: 0 ] = { disp_vsync, disp_hsync, disp_en, disp_clk, disp_blue
 assign disp_en = pll_lock; // Enable the display just after PLL has locked
 
 assign dac_en = SW[ 0 ];
-
+assign disp_en_sw = SW [ 2 ];
 
 // =======================================================
 // Structural coding
@@ -125,6 +131,8 @@ system_pll pll
                .c1( pll_clk_20 ),
                .c2( pll_clk_9 )
            );
+//
+
 sample_timer timer
              (
                  .clk( sclk ),
@@ -169,14 +177,25 @@ fir_lpf low_pass_filter
             .ast_source_valid( lpf_valid ),
             .ast_source_error( lpf_error )
         );
+//
+
+avalon_io12_4_switcher filter_switcher
+                       (
+                           .clk ( sclk ), .select ( ~BUTTON[ 2: 1 ] ),
+                           .sink_data_0 ( hpf_data ), .sink_valid_0 ( hpf_valid ), .sink_error_0 ( hpf_error ),
+                           .sink_data_1 ( lpf_data ), .sink_valid_1 ( lpf_valid ), .sink_error_1 ( lpf_error ),
+                           .sink_data_2 ( adc_data ), .sink_valid_2 ( adc_valid ), .sink_error_2 ( adc_error ),
+                           .sink_data_3 ( 1'b0 ), .sink_valid_3 ( 1'b0 ), .sink_error_3 ( 1'b0 ),
+                           .source_data ( dac_sink_data ), .source_valid ( dac_sink_valid ), .source_error ( dac_sink_error ) );
+//
 
 dac_spi dac
         (
             .sclk( sclk ),
             .en( dac_en ),
-            .ast_sink_data( hpf_data ),
-            .ast_sink_valid( hpf_valid ),
-            .ast_sink_error( hpf_error ),
+            .ast_sink_data( dac_sink_data ),
+            .ast_sink_valid( dac_sink_valid ),
+            .ast_sink_error( dac_sink_error ),
             .cs_n( dac_cs_n ),
             .mosi( dac_mosi ),
             .clr_n( dac_clr_n ),
@@ -229,7 +248,7 @@ peak_detector lf_detector
 video_position_sync video_sync
                     (
                         .disp_clk( disp_clk ),
-                        .en( pll_lock ),
+                        .en( pll_lock && disp_en_sw ),
                         .valid_draw( valid_draw ),
                         .v_blank( v_blank ),
                         .h_pos( h_pos ),
@@ -246,10 +265,10 @@ dual_scrolling_display display
                            .h_pos( h_pos ),
                            .v_pos( v_pos ),
                            .valid_draw( valid_draw ),
-                           .sink_data_a( lpf_peak_data ),
-                           .sink_data_b( hpf_peak_data ),
-                           .sink_valid_a( lpf_peak_valid ),
-                           .sink_valid_b( hpf_peak_valid ),
+                           .sink_data_a( hpf_peak_data ),
+                           .sink_data_b( lpf_peak_data ),
+                           .sink_valid_a( hpf_peak_valid ),
+                           .sink_valid_b( lpf_peak_valid ),
                            .disp_red( disp_red ),
                            .disp_green( disp_green ),
                            .disp_blue( disp_blue )

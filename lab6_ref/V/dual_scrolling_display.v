@@ -11,6 +11,7 @@ module dual_scrolling_display
 
 wire [ 11: 0 ] buffer_a_data, buffer_b_data;
 reg [ 11: 0 ] lut_input;
+reg lut_en;
 wire [ 7: 0 ] lut_red, lut_green, lut_blue;
 
 // Positions of row boundaries in 272 pixel tall screen
@@ -27,21 +28,26 @@ wire in_row_5 = ROW_4 <= v_pos;
 
 // Mux between the five rows
 always @( in_row_1, in_row_2, in_row_3, in_row_4, in_row_5, buffer_a_data, buffer_b_data ) begin
-    case ( { in_row_1, in_row_2, in_row_3, in_row_4, in_row_5 } )  // synthesis full_case
+    case ( { in_row_1, in_row_2, in_row_3, in_row_4, in_row_5 } )     // synthesis full_case
         5'b10000: begin
             lut_input <= 1'b0;
+            lut_en <= 1'b0;
         end
         5'b01000: begin
             lut_input <= buffer_a_data;
+            lut_en <= 1'b1;
         end
         5'b00100: begin
             lut_input <= 1'b0;
+            lut_en <= 1'b0;
         end
         5'b00010: begin
             lut_input <= buffer_b_data;
+            lut_en <= 1'b1;
         end
         5'b00001: begin
             lut_input <= 1'b0;
+            lut_en <= 1'b0;
         end
     endcase
 end
@@ -63,7 +69,7 @@ scrolling_buffer buffer_a
                      .display_clk( display_clk ),
                      .sink_data( sink_data_a ),
                      .sink_valid( sink_valid_a ),
-                     .read_pos( h_pos ),
+                     .read_pos( h_pos + 1'b1 ),
                      .source_data( buffer_a_data )
                  );
 //
@@ -74,7 +80,7 @@ scrolling_buffer buffer_b
                      .display_clk( display_clk ),
                      .sink_data( sink_data_b ),
                      .sink_valid( sink_valid_b ),
-                     .read_pos( h_pos ),
+                     .read_pos( h_pos + 1'b1 ),
                      .source_data( buffer_b_data )
                  );
 //
@@ -83,6 +89,7 @@ peak_to_color_lut lut
                   (
                       .display_clk( display_clk ),
                       .in_value( lut_input ),
+                      .en( lut_en ),
                       .disp_red( lut_red ),
                       .disp_green( lut_green ),
                       .disp_blue( lut_blue )

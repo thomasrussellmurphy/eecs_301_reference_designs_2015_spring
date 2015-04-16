@@ -4,7 +4,7 @@ module sample_timer
            output reg sample_trigger
        );
 
-parameter MAX_COUNT = 9'd250;
+parameter MAX_COUNT = 9'd400;
 
 reg [ 8: 0 ] count;
 
