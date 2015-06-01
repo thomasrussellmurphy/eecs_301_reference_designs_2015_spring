@@ -55,6 +55,7 @@
 *example*
 *sopc_*
 # *.sdc # I want those timing files
+PLLJ_PLLSPE_INFO.txt # The generated PLL specification file
 
 # ignore Quartus II generated folders
 db
