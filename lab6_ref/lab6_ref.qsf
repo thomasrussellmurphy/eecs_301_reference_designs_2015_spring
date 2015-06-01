@@ -620,7 +620,7 @@ set_global_assignment -name PARTITION_COLOR 14622752 -section_id Top
 # -------------------
 
 set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
-set_global_assignment -name ENABLE_SIGNALTAP ON
+set_global_assignment -name ENABLE_SIGNALTAP OFF
 set_global_assignment -name USE_SIGNALTAP_FILE stp1.stp
 set_global_assignment -name VERILOG_FILE V/avalon_io12_4_switcher.v
 set_global_assignment -name VERILOG_FILE V/video_position_sync.v
