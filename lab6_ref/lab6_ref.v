@@ -1,3 +1,4 @@
+// Top Level for Lab 6 Reference Design
 module lab6_ref
        (
            //////////////////////// Clock Input ////////////////////////
